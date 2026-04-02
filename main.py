@@ -1,3 +1,4 @@
+import os
 import sys
 import calendar
 import datetime
@@ -23,9 +24,11 @@ def main():
 
     excel = Lettura_Excel_Cure('./Elenco_cure/Cure.xlsx')
 
-    nome_mese = Trova_Nome_Mese(mese);
+    nome_mese = Trova_Nome_Mese(mese)
 
-    Creazione_Scheda(excel, calendar, nome_mese); 
+    Cancella_Vecchie_Schede()
+
+    Creazione_Schede(excel, calendar, nome_mese)
 
 
 
@@ -58,6 +61,7 @@ def Controllo_Argomenti(anno, mese: str):
     except Exception as e:
         raise Exception(str(e))
     
+#Funzione per la ricerca del nome del mese
 def Trova_Nome_Mese(mese: int) -> str:
     match mese:
         case 1:
@@ -84,7 +88,8 @@ def Trova_Nome_Mese(mese: int) -> str:
             return "Novembre"
         case 12:
             return "Dicembre"
-    
+        
+#Funzione per creare il calendario del mese    
 def Crea_Calendario(anno, mese: int) -> List[Day]:
     cal = calendar.monthcalendar(anno,mese)
 
@@ -114,15 +119,24 @@ def Crea_Calendario(anno, mese: int) -> List[Day]:
             index += 1
 
     return days    
-
     
-#Leggo e restituisco un array of array
+#Funzione per restituire i dati dell'excek (array of array)
 def Lettura_Excel_Cure(path: str):
     df = pd.read_excel(path)
     data = df.values.tolist()
     return data
 
-def Creazione_Scheda(data_scheda, calendar: List[Day], mese: str):
+#Funzione per la cancellazione delle vecchie schede generate
+def Cancella_Vecchie_Schede():
+    directory = "./Schede_generate"
+
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+        if os.path.isfile(file_path):
+            os.remove(file_path)  # delete file
+
+#Funzione per la creazione delle schede di cura
+def Creazione_Schede(data_scheda, calendar: List[Day], mese: str):
 
     #Carico template
     env = Environment(loader=FileSystemLoader("."))
@@ -141,7 +155,7 @@ def Creazione_Scheda(data_scheda, calendar: List[Day], mese: str):
         output = template.render(data)
 
         # Save report
-        with open(f".Schede_generate/{row[0]}.html", "w") as f:
+        with open(f"./Schede_generate/{row[0]}.html", "w") as f:
             f.write(output)
 
         print(f"Report generated: {row[0]}.html")       
