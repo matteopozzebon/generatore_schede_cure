@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            font-size: 12;
+        }
+
+        .container {
+            background: white;
+            padding: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse; /* important */
+        }
+
+        th, td {
+            border: 1px solid black; /* table borders */
+            padding: 4px;
+        }
+
+        table th, table td {
+            text-align: center;       /* horizontal centering */
+            vertical-align: middle;   /* vertical centering */
+        }
+
+        .header-container {
+            position: relative;      /* make container the positioning context */
+            height: 100px;           /* example height */
+            border: 1px solid #000;  /* optional, to visualize */
+        }
+
+        .left-title {
+            position: absolute;
+            left: 6px;                 /* stick to the left */
+            top: 30%;
+            transform: translateY(-50%); /* vertically center */
+            font-size: 40px;
+        }
+
+        .center-title {
+            position: absolute;
+            left: 50%;               /* center horizontally */
+            top: 30%;
+            transform: translate(-50%, -50%); /* truly center */
+            font-size: 40px;
+        }
+
+        .oblique {
+            font-style: oblique; /* or italic */
+            color: #ff0000;      /* optional styling */
+        }    
+
+
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header-container">
+            <h1 class="left-title">{{ dati[0] }}</h1>
+            <h1 class="center-title">{{ title }}</h1>
+        </div>
+
+        <table>
+            <!-- <thead>-->
+                <tr>
+                    <th style="width: 10px;"></th> <!-- first column -->
+                    <th style="width: 80px;"></th> <!-- second column -->
+                    <th style="width: 30px;">M</th>
+                    <th style="width: 30px;">M</th>
+                    <th style="width: 30px;">P</th>
+                    <th style="width: 30px;">S</th>
+                    <th style="width: 90px;" rowspan={{ days_number + 1 }}>Single Cell</th> <!-- This cell spans all rows -->
+                </tr>
+            <!-- </thead>-->
+            <!-- <tbody>-->
+                {% for day in days: %}
+                    <tr>
+                        <td>{{ day.number }}</td>
+                        <td>{{ day.name }}</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                        <td>6</td>
+                    </tr>
+                {% endfor %}
+            <!--</tbody>-->
+        </table>
+    </div>
+</body>
+</html>
