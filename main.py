@@ -124,31 +124,27 @@ def Lettura_Excel_Cure(path: str):
 
 def Creazione_Scheda(data_scheda, calendar: List[Day], mese: str):
 
-    print(data_scheda[0][1])
-    print(data_scheda[0][2])
-    print(data_scheda[0][5])
-    print(data_scheda[0][9])
-
     #Carico template
     env = Environment(loader=FileSystemLoader("."))
     template = env.get_template("scheda_cure.html")
 
-    # Data to inject
-    data = {
-        "title": mese,
-        "days": calendar,
-        "days_number": len(calendar),
-        "dati": data_scheda[0],
-    }
+    for row in data_scheda:
+        # Data to inject
+        data = {
+            "title": mese,
+            "days": calendar,
+            "days_number": len(calendar),
+            "dati": row,
+        }
 
-    # Render HTML
-    output = template.render(data)
+        # Render HTML
+        output = template.render(data)
 
-    # Save report
-    with open(f"./output.html", "w") as f:
-        f.write(output)
+        # Save report
+        with open(f".Schede_generate/{row[0]}.html", "w") as f:
+            f.write(output)
 
-    print("Report generated: output.html")       
+        print(f"Report generated: {row[0]}.html")       
 
 
 if __name__ == "__main__":
