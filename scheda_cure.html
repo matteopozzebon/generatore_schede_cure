@@ -67,29 +67,25 @@
         </div>
 
         <table>
-            <!-- <thead>-->
+            <tr>
+                <th style="width: 10px;"></th> <!-- first column -->
+                <th style="width: 80px;"></th> <!-- second column -->
+                <th style="width: 30px;"> {{ 'M' if dati[1] != 'nan' else '' }} </th>
+                <th style="width: 30px;">M</th>
+                <th style="width: 30px;">P</th>
+                <th style="width: 30px;">S</th>
+                <th style="width: 90px;" rowspan={{ days_number + 1 }}>Single Cell</th> <!-- This cell spans all rows -->
+            </tr>
+            {% for day in days: %}
                 <tr>
-                    <th style="width: 10px;"></th> <!-- first column -->
-                    <th style="width: 80px;"></th> <!-- second column -->
-                    <th style="width: 30px;">M</th>
-                    <th style="width: 30px;">M</th>
-                    <th style="width: 30px;">P</th>
-                    <th style="width: 30px;">S</th>
-                    <th style="width: 90px;" rowspan={{ days_number + 1 }}>Single Cell</th> <!-- This cell spans all rows -->
+                    <td>{{ day.number }}</td>
+                    <td>{{ day.name }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                 </tr>
-            <!-- </thead>-->
-            <!-- <tbody>-->
-                {% for day in days: %}
-                    <tr>
-                        <td>{{ day.number }}</td>
-                        <td>{{ day.name }}</td>
-                        <td>3</td>
-                        <td>4</td>
-                        <td>5</td>
-                        <td>6</td>
-                    </tr>
-                {% endfor %}
-            <!--</tbody>-->
+            {% endfor %}
         </table>
     </div>
 </body>
