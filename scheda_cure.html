@@ -72,7 +72,7 @@
                 <!-- dati[1] = 1M
                      dati[2] = 2M
                      dati[5] = P
-                     dati[9] = S-->
+                     dati[9] = S -->
                 <th style="width: 10px;"></th> 
                 <th style="width: 80px;"></th> 
 
@@ -284,7 +284,17 @@
                 <tr>
                     <td>{{ day.number }}</td>
                     <td>{{ day.name }}</td>
-                    <td></td>
+                    <td>
+                        {% if dati[17] == dati[17] %}
+                            {% if day.number % 2 == 0 and (dati[17] | int) % 2 == 0 %}    
+                                /
+                            {% elif day.number % 2 != 0 and (dati[17] | int) % 2 != 0 %}
+                                /
+                            {% endif %}
+                        {% else %}
+                        
+                        {% endif %}
+                    </td>
                     <td></td>
                     <td></td>
                     <td></td>
