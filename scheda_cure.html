@@ -51,7 +51,7 @@
         }
 
         .oblique {
-            font-style: oblique; /* or italic */
+            font-style: oblique; /* and italic */
             color: #ff0000;      /* optional styling */
         }    
 
@@ -68,12 +68,143 @@
 
         <table>
             <tr>
-                <th style="width: 10px;"></th> <!-- first column -->
-                <th style="width: 80px;"></th> <!-- second column -->
-                <th style="width: 30px;"> {{ 'M' if dati[1] != 'nan' else '' }} </th>
-                <th style="width: 30px;">M</th>
-                <th style="width: 30px;">P</th>
-                <th style="width: 30px;">S</th>
+                <!-- dati[1] = 1M
+                     dati[2] = 2M
+                     dati[5] = P
+                     dati[9] = S-->
+                <th style="width: 10px;"></th> 
+                <th style="width: 80px;"></th> 
+
+                <!--#region conditions  -->
+                
+                <!-- 1M - 2M - P - S -->
+                {% if dati[1] == dati[1] and
+                      dati[2] == dati[2] and 
+                      dati[5] == dati[5] and
+                      dati[9] == dati[9]
+                      %}
+                    <th style="width: 30px;">1M</th>
+                    <th style="width: 30px;">2M</th>
+                    <th style="width: 30px;">P</th>
+                    <th style="width: 30px;">S</th>
+                <!-- 1M - S -->
+                {% elif 
+                      dati[1] == dati[1] and
+                      dati[2] != dati[2] and 
+                      dati[5] != dati[5] and 
+                      dati[9] == dati[9]
+                      %}                    
+                    <th style="width: 30px;">M</th>
+                    <th style="width: 30px;">S</th>
+                    <th style="width: 30px;"></th>
+                    <th style="width: 30px;"></th>
+                <!-- 1M -->
+                {% elif 
+                      dati[1] == dati[1] and
+                      dati[2] != dati[2] and 
+                      dati[5] != dati[5] and
+                      dati[9] != dati[9]    
+                      %}                    
+                    <th style="width: 30px;">M</th>
+                    <th style="width: 30px;"></th>
+                    <th style="width: 30px;"></th>
+                    <th style="width: 30px;"></th>                    
+                <!-- 1M - 2M - P -->
+                {% elif 
+                      dati[1] == dati[1] and
+                      dati[2] == dati[2] and 
+                      dati[5] == dati[5] and 
+                      dati[9] != dati[9]
+                      %}
+                    <th style="width: 30px;">1M</th>
+                    <th style="width: 30px;">2M</th>
+                    <th style="width: 30px;">P</th>
+                    <th style="width: 30px;"></th>     
+                <!-- 1M - 2M - S -->
+                {% elif 
+                      dati[1] == dati[1] and
+                      dati[2] == dati[2] and 
+                      dati[5] != dati[5] and
+                      dati[9] == dati[9]
+                      %}
+                    <th style="width: 30px;">1M</th>
+                    <th style="width: 30px;">2M</th>
+                    <th style="width: 30px;">P</th>
+                    <th style="width: 30px;"></th>                         
+                <!-- 1M - 2M -->
+                {% elif
+                      dati[1] == dati[1] and
+                      dati[2] == dati[2] and 
+                      dati[5] != dati[5] and
+                      dati[9] != dati[9]                   
+                    %}         
+                    <th style="width: 30px;">1M</th>
+                    <th style="width: 30px;">2M</th>
+                    <th style="width: 30px;"></th>
+                    <th style="width: 30px;"></th> 
+                <!-- 1M - P - S -->
+                {% elif 
+                      dati[1] == dati[1] and 
+                      dati[2] != dati[2] and 
+                      dati[5] == dati[5] and
+                      dati[9] == dati[9] 
+                      %}                    
+                    <th style="width: 30px;">M</th>
+                    <th style="width: 30px;">P</th>
+                    <th style="width: 30px;">S</th>
+                    <th style="width: 30px;"></th>         
+                <!-- 1M - P -->
+                {% elif 
+                      dati[1] == dati[1] and
+                      dati[2] != dati[2] and 
+                      dati[5] == dati[5] and
+                      dati[9] != dati[9]   
+                      %}                    
+                    <th style="width: 30px;">M</th>
+                    <th style="width: 30px;">S</th>
+                    <th style="width: 30px;"></th>
+                    <th style="width: 30px;"></th>       
+                <!-- P - S -->
+                {% elif 
+                      dati[1] != dati[1] and
+                      dati[2] != dati[2] and 
+                      dati[5] == dati[5] and
+                      dati[9] == dati[9]   
+                      %}                    
+                    <th style="width: 30px;">P</th>
+                    <th style="width: 30px;">S</th>
+                    <th style="width: 30px;"></th>
+                    <th style="width: 30px;"></th> 
+                <!-- P -->
+               {% elif 
+                      dati[1] != dati[1] and
+                      dati[2] != dati[2] and 
+                      dati[5] == dati[5] and
+                      dati[9] != dati[9]
+                      %}                    
+                    <th style="width: 30px;">P</th>
+                    <th style="width: 30px;"></th>
+                    <th style="width: 30px;"></th>
+                    <th style="width: 30px;"></th>     
+                <!-- S -->
+               {% elif 
+                      dati[1] != dati[1] and
+                      dati[2] != dati[2] and 
+                      dati[5] != dati[5] and
+                      dati[9] == dati[9]
+                      %}                    
+                    <th style="width: 30px;">S</th>
+                    <th style="width: 30px;"></th>
+                    <th style="width: 30px;"></th>
+                    <th style="width: 30px;"></th>                                                                                                                 
+                {% else %}
+                    <th style="width: 30px;">M45</th>
+                    <th style="width: 30px;"></th>
+                    <th style="width: 30px;"></th>
+                    <th style="width: 30px;"></th>                                
+                {% endif %} 
+                <!--#endregion -->               
+
                 <th style="width: 90px;" rowspan={{ days_number + 1 }}>Single Cell</th> <!-- This cell spans all rows -->
             </tr>
             {% for day in days: %}

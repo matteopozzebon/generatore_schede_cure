@@ -51,7 +51,7 @@
         }
 
         .oblique {
-            font-style: oblique; /* or italic */
+            font-style: oblique; /* and italic */
             color: #ff0000;      /* optional styling */
         }    
 
@@ -62,18 +62,31 @@
 <body>
     <div class="container">
         <div class="header-container">
-            <h1 class="left-title">Ares</h1>
+            <h1 class="left-title">Rokita</h1>
             <h1 class="center-title">Aprile</h1>
         </div>
 
         <table>
             <tr>
-                <th style="width: 10px;"></th> <!-- first column -->
-                <th style="width: 80px;"></th> <!-- second column -->
-                <th style="width: 30px;"> M </th>
-                <th style="width: 30px;">M</th>
-                <th style="width: 30px;">P</th>
-                <th style="width: 30px;">S</th>
+                <!-- dati[1] = 1M
+                     dati[2] = 2M
+                     dati[5] = P
+                     dati[9] = S-->
+                <th style="width: 10px;"></th> 
+                <th style="width: 80px;"></th> 
+
+                <!--#region conditions  -->
+                
+                <!-- 1M - 2M - P - S -->
+                                    
+                    <th style="width: 30px;">M</th>
+                    <th style="width: 30px;">P</th>
+                    <th style="width: 30px;">S</th>
+                    <th style="width: 30px;"></th>         
+                <!-- 1M - P -->
+                 
+                <!--#endregion -->               
+
                 <th style="width: 90px;" rowspan=31>Single Cell</th> <!-- This cell spans all rows -->
             </tr>
             

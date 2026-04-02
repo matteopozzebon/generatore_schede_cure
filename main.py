@@ -124,6 +124,11 @@ def Lettura_Excel_Cure(path: str):
 
 def Creazione_Scheda(data_scheda, calendar: List[Day], mese: str):
 
+    print(data_scheda[0][1])
+    print(data_scheda[0][2])
+    print(data_scheda[0][5])
+    print(data_scheda[0][9])
+
     #Carico template
     env = Environment(loader=FileSystemLoader("."))
     template = env.get_template("scheda_cure.html")
