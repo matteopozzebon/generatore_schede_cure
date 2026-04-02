@@ -8,6 +8,8 @@ requests = "*"
 jinja2 = "*"
 pandas = "*"
 openpyxl = "*"
+pdfkit = "*"
+pypdf = "*"
 
 [dev-packages]
 

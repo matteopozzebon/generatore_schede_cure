@@ -6,6 +6,8 @@ from typing import List
 from jinja2 import Environment, FileSystemLoader
 import pandas as pd
 from dataclasses import dataclass
+import pdfkit
+from pypdf import PdfWriter
 
 @dataclass
 class Day:
@@ -26,12 +28,15 @@ def main():
 
     nome_mese = Trova_Nome_Mese(mese)
 
-    Cancella_Vecchie_Schede()
+    Cancella_Vecchie_Schede_PDF()
 
     Creazione_Schede(excel, calendar, nome_mese)
 
+    Creazione_Schede_PDF()
 
+    Cancella_Vecchie_Schede_HTML()
 
+    Accoda_PDF(nome_mese, str(anno))
         
 #funzione per il controllo della validità degli argomenti
 def Controllo_Argomenti(anno, mese: str):    
@@ -126,17 +131,27 @@ def Lettura_Excel_Cure(path: str):
     data = df.values.tolist()
     return data
 
-#Funzione per la cancellazione delle vecchie schede generate
-def Cancella_Vecchie_Schede():
+#Funzione per la cancellazione delle vecchie schede generate in formato pdf in formato html
+def Cancella_Vecchie_Schede_HTML():
     directory = "./Schede_generate"
 
     for filename in os.listdir(directory):
         file_path = os.path.join(directory, filename)
-        if os.path.isfile(file_path):
-            os.remove(file_path)  # delete file
+        if os.path.isfile(file_path) and filename.endswith(".html"):
+            os.remove(file_path)
+
+#Funzione per la cancellazione delle vecchie schede generate in formato pdf
+def Cancella_Vecchie_Schede_PDF():
+    directory = "./Schede_generate"
+
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+        if os.path.isfile(file_path) and filename.endswith(".pdf"):
+            os.remove(file_path)
 
 #Funzione per la creazione delle schede di cura
 def Creazione_Schede(data_scheda, calendar: List[Day], mese: str):
+
 
     #Carico template
     env = Environment(loader=FileSystemLoader("."))
@@ -159,6 +174,39 @@ def Creazione_Schede(data_scheda, calendar: List[Day], mese: str):
             f.write(output)
 
         print(f"Report generated: {row[0]}.html")       
+
+def Creazione_Schede_PDF():
+    directory = "./Schede_generate"
+
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+        name, ext = os.path.splitext(filename)    
+        pdfkit.from_file(file_path, f"{directory}/{name}.pdf")
+
+def Accoda_PDF(mese, anno: str):
+    pdf_files = []
+    directory = "./Schede_generate"
+
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)    
+        pdf_files.append(file_path)
+    
+    pdf_files.sort()
+
+    merger = PdfWriter()
+
+    for pdf in pdf_files:
+        merger.append(pdf)
+
+    merger.write(f"{directory}/{mese}_{anno}.pdf")
+
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+        print(filename)
+        if os.path.isfile(file_path) and filename != f"{mese}_{anno}.pdf":
+            os.remove(file_path)    
+    
+
 
 
 if __name__ == "__main__":
