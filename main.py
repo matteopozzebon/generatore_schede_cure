@@ -1,5 +1,5 @@
 import os
-import sys
+import base64
 import calendar
 import datetime
 from typing import List
@@ -223,7 +223,7 @@ def Creazione_Schede_PDF():
     for filename in os.listdir(directory):
         file_path = os.path.join(directory, filename)
         name, ext = os.path.splitext(filename)    
-        pdfkit.from_file(file_path, f"{directory}/{name}.pdf")
+        pdfkit.from_file(file_path, f"{directory}/{name}.pdf", options={"enable-local-file-access": ""})
     
     print("Conversione PDF eseguita")
 
