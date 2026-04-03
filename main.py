@@ -84,9 +84,6 @@ def Controllo_Argomenti(anno, mese: str):
     current_year = datetime.date.today().year
 
     try:
-        if len(sys.argv) != 3:
-            raise Exception("Il numero di argomenti inseriti non è valido!")
-
         try:
             anno_int = int(anno)
             mese_int = int(mese)
