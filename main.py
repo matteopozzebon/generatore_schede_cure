@@ -15,28 +15,64 @@ class Day:
     name: str
 
 def main(): 
-   
-    #Controllo che gli argomenti inseriti siano corretti
-    Controllo_Argomenti(sys.argv[1], sys.argv[2])
+    print("Seleziona l'azione da svolgere:")
+    print("1) Generazione di una scheda vuota")
+    print("2) Generazione dell'elenco delle cure")
+    option = input("Seleziona l'opzione desiderata: ")
 
-    anno = int(sys.argv[1])
-    mese = int(sys.argv[2])
+    Controllo_opzione(option)
 
-    calendar = Crea_Calendario(anno, mese)
+    match int(option):
+        case 1:
+            anno_str = input("Inserisci l'anno: ")
+            mese_str = input("Inserisci il mese: ")
 
-    excel = Lettura_Excel_Cure('./Elenco_cure/Cure.xlsx')
+            Controllo_Argomenti(anno_str, mese_str)
 
-    nome_mese = Trova_Nome_Mese(mese)
+            anno = int(anno_str)
+            mese = int(mese_str)
 
-    Cancella_Vecchie_Schede_PDF()
+            calendar = Crea_Calendario(anno, mese)
 
-    Creazione_Schede(excel, calendar, nome_mese)
+            nome_mese = Trova_Nome_Mese(mese)
 
-    Creazione_Schede_PDF()
+            Cancella_Vecchia_Scheda_Vuota_PDF()
 
-    Cancella_Vecchie_Schede_HTML()
+            Creazione_Scheda_Vuota(calendar, nome_mese, anno)
 
-    Accoda_PDF(nome_mese, str(anno))
+            Creazione_Scheda_Vuota_PDF()
+
+            Cancella_Vecchia_Scheda_Vuota_HTML()
+        case 2:
+            anno_str = input("Inserisci l'anno: ")
+            mese_str = input("Inserisci il mese: ")
+
+            #Controllo che gli argomenti inseriti siano corretti
+            Controllo_Argomenti(anno_str, mese_str)
+
+            anno = int(anno_str)
+            mese = int(mese_str)
+
+            calendar = Crea_Calendario(anno, mese)
+
+            excel = Lettura_Excel_Cure('./Elenco_cure/Cure.xlsx')
+
+            nome_mese = Trova_Nome_Mese(mese)
+
+            Cancella_Vecchie_Schede_PDF()
+
+            Creazione_Schede(excel, calendar, nome_mese, anno)
+
+            Creazione_Schede_PDF()
+
+            Cancella_Vecchie_Schede_HTML()
+
+            Accoda_PDF(nome_mese, str(anno))
+
+#controllo validità opzione selezionata
+def Controllo_opzione(opzione: str):
+    if opzione not in ("1", "2"):
+        raise Exception('Opzione selezionata non valida!')
         
 #funzione per il controllo della validità degli argomenti
 def Controllo_Argomenti(anno, mese: str):    
@@ -150,17 +186,18 @@ def Cancella_Vecchie_Schede_PDF():
             os.remove(file_path)
 
 #Funzione per la creazione delle schede di cura
-def Creazione_Schede(data_scheda, calendar: List[Day], mese: str):
-
+def Creazione_Schede(data_scheda, calendar: List[Day], mese: str, anno: int):
 
     #Carico template
     env = Environment(loader=FileSystemLoader("."))
     template = env.get_template("scheda_cure.html")
 
+    title = f"{mese} {str(anno)}"
+
     for row in data_scheda:
         # Data to inject
         data = {
-            "title": mese,
+            "title": title,
             "days": calendar,
             "days_number": len(calendar),
             "dati": row,
@@ -206,8 +243,51 @@ def Accoda_PDF(mese, anno: str):
         if os.path.isfile(file_path) and filename != f"{mese}_{anno}.pdf":
             os.remove(file_path)    
     
+def Cancella_Vecchia_Scheda_Vuota_HTML():
+    directory = "./Scheda_cure_vuota"
 
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+        if os.path.isfile(file_path) and filename.endswith(".html"):
+            os.remove(file_path)
 
+def Cancella_Vecchia_Scheda_Vuota_PDF():
+    directory = "./Scheda_cure_vuota"
+
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+        if os.path.isfile(file_path) and filename.endswith(".pdf"):
+            os.remove(file_path)
+
+def Creazione_Scheda_Vuota(calendar: List[Day], mese: str, anno: int):
+
+    #Carico template
+    env = Environment(loader=FileSystemLoader("."))
+    template = env.get_template("scheda_cure_vuota.html")
+
+    title = f"{mese} {str(anno)}"
+
+    # Data to inject
+    data = {
+        "title": title,
+        "days": calendar,
+        "days_number": len(calendar),
+    }
+    # Render HTML
+    output = template.render(data)
+    # Save report
+    with open(f"./Scheda_cure_vuota/{mese}_{str(anno)}_Vuota.html", "w") as f:
+        f.write(output)
+    
+    print(f"Report generated: {mese}_{str(anno)}_Vuota.html")   
+
+def Creazione_Scheda_Vuota_PDF():
+    directory = "./Scheda_cure_vuota"
+
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+        name, ext = os.path.splitext(filename)    
+        pdfkit.from_file(file_path, f"{directory}/{name}.pdf")         
 
 if __name__ == "__main__":
     main()

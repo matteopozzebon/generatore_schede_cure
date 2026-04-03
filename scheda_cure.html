@@ -200,7 +200,7 @@
                     <th style="width: 30px;"></th>
                     <th style="width: 30px;"></th>                                                                                                                 
                 {% else %}
-                    <th style="width: 30px;">M45</th>
+                    <th style="width: 30px;"></th>
                     <th style="width: 30px;"></th>
                     <th style="width: 30px;"></th>
                     <th style="width: 30px;"></th>                                
@@ -284,17 +284,7 @@
                 <tr>
                     <td>{{ day.number }}</td>
                     <td>{{ day.name }}</td>
-                    <td>
-                        {% if dati[17] == dati[17] %}
-                            {% if day.number % 2 == 0 and (dati[17] | int) % 2 == 0 %}    
-                                /
-                            {% elif day.number % 2 != 0 and (dati[17] | int) % 2 != 0 %}
-                                /
-                            {% endif %}
-                        {% else %}
-                        
-                        {% endif %}
-                    </td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td></td>
