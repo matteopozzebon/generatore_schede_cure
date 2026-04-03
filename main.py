@@ -27,6 +27,7 @@ def main():
             anno_str = input("Inserisci l'anno: ")
             mese_str = input("Inserisci il mese: ")
 
+            #region Creazione scheda vuota
             Controllo_Argomenti(anno_str, mese_str)
 
             anno = int(anno_str)
@@ -43,9 +44,12 @@ def main():
             Creazione_Scheda_Vuota_PDF()
 
             Cancella_Vecchia_Scheda_Vuota_HTML()
+            #endregion
         case 2:
             anno_str = input("Inserisci l'anno: ")
             mese_str = input("Inserisci il mese: ")
+
+            #region Creazione schede di cura
 
             #Controllo che gli argomenti inseriti siano corretti
             Controllo_Argomenti(anno_str, mese_str)
@@ -68,6 +72,7 @@ def main():
             Cancella_Vecchie_Schede_HTML()
 
             Accoda_PDF(nome_mese, str(anno))
+            #endregion
 
 #controllo validità opzione selezionata
 def Controllo_opzione(opzione: str):
@@ -212,15 +217,22 @@ def Creazione_Schede(data_scheda, calendar: List[Day], mese: str, anno: int):
 
         print(f"Report generated: {row[0]}.html")       
 
+#Funzione per la conversione delle schede in formato PDF
 def Creazione_Schede_PDF():
     directory = "./Schede_generate"
+
+    print("Conversione in PDF delle schede generate...")
 
     for filename in os.listdir(directory):
         file_path = os.path.join(directory, filename)
         name, ext = os.path.splitext(filename)    
         pdfkit.from_file(file_path, f"{directory}/{name}.pdf")
+    
+    print("Conversione PDF eseguita")
 
+#Funzione per la creazione di un solo PDF con tutte le schede
 def Accoda_PDF(mese, anno: str):
+    print("Creazione di un singolo PDF con tutte le schede cura...")
     pdf_files = []
     directory = "./Schede_generate"
 
@@ -241,8 +253,11 @@ def Accoda_PDF(mese, anno: str):
         file_path = os.path.join(directory, filename)
         print(filename)
         if os.path.isfile(file_path) and filename != f"{mese}_{anno}.pdf":
-            os.remove(file_path)    
+            os.remove(file_path)        
     
+    print("PDF con schede cura generato")
+
+#Funzione per la creazione della scheda vuota in formato HTML
 def Cancella_Vecchia_Scheda_Vuota_HTML():
     directory = "./Scheda_cure_vuota"
 
@@ -251,6 +266,7 @@ def Cancella_Vecchia_Scheda_Vuota_HTML():
         if os.path.isfile(file_path) and filename.endswith(".html"):
             os.remove(file_path)
 
+#Funzione per la creazione della scheda vuota in formato PDF
 def Cancella_Vecchia_Scheda_Vuota_PDF():
     directory = "./Scheda_cure_vuota"
 
@@ -259,6 +275,7 @@ def Cancella_Vecchia_Scheda_Vuota_PDF():
         if os.path.isfile(file_path) and filename.endswith(".pdf"):
             os.remove(file_path)
 
+#Funzione per la creazione di una scheda di cura vuota
 def Creazione_Scheda_Vuota(calendar: List[Day], mese: str, anno: int):
 
     #Carico template
@@ -281,6 +298,7 @@ def Creazione_Scheda_Vuota(calendar: List[Day], mese: str, anno: int):
     
     print(f"Report generated: {mese}_{str(anno)}_Vuota.html")   
 
+#Funzione per la conversione della scheda in PDF
 def Creazione_Scheda_Vuota_PDF():
     directory = "./Scheda_cure_vuota"
 
