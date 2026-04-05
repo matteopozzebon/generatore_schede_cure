@@ -55,13 +55,13 @@ def main():
             print("1) Apri PDF")
             print("2) Stampa PDF")
             print("3) Esci")
-            ApriStampa = input("Vuoi aprire o stampare il PDF generato?")
+            ApriStampa = input("Vuoi aprire o stampare il PDF generato? ")
 
             while ApriStampa not in ("1", "2", "3"):
                 print("1) Apri PDF")
                 print("2) Stampa PDF")
                 print("3) Esci")                
-                ApriStampa = input("Vuoi aprire o stampare il PDF generato?")
+                ApriStampa = input("Vuoi aprire o stampare il PDF generato? ")
 
             match int(ApriStampa):
                 case 1:
@@ -83,15 +83,15 @@ def main():
             print("Generazione modelli schede...")
 
             anno_str = input("Inserisci l'anno: ")
-            daMese = input("Da mese:")
+            daMese = input("Da mese: ")
 
             while daMese not in ("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"): 
-                daMese = input("Da mese:")
+                daMese = input("Da mese: ")
 
-            aMese = input("A mese:")
+            aMese = input("A mese: ")
 
             while aMese not in ("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"): 
-                aMese = input("A mese:")
+                aMese = input("A mese: ")
 
             if int(aMese < daMese):
                 raise Exception("Il mese di partenza non può essere successivo a quello di partenza!")    
@@ -115,6 +115,30 @@ def main():
 
             Accoda_PDF_Modelli(daMese, aMese, anno_str, "./Modelli_Schede_Cura")
             print("Generazione completata!")
+
+            print("1) Apri PDF")
+            print("2) Stampa PDF")
+            print("3) Esci")
+            ApriStampa = input("Vuoi aprire o stampare il PDF generato? ")
+
+            while ApriStampa not in ("1", "2", "3"):
+                print("1) Apri PDF")
+                print("2) Stampa PDF")
+                print("3) Esci")                
+                ApriStampa = input("Vuoi aprire o stampare il PDF generato? ")
+
+            match int(ApriStampa):
+                case 1:
+                    for filename in os.listdir("./Modelli_Schede_Cura"):
+                        os.system(f"xdg-open './Modelli_Schede_Cura/{filename}'")
+                case 2:
+                    try: 
+                        for filename in os.listdir("./Modelli_Schede_Cura"):
+                            Stampa_PDF(f"./Modelli_Schede_Cura/{filename}")
+                    except:
+                        raise Exception("Errore durante il tentativo di stampa!")
+                case 3:
+                    exit()            
             #endregion
 
         case 3:
@@ -143,13 +167,13 @@ def main():
             print("1) Apri PDF")
             print("2) Stampa PDF")
             print("3) Esci")
-            ApriStampa = input("Vuoi aprire o stampare il PDF generato?")
+            ApriStampa = input("Vuoi aprire o stampare il PDF generato? ")
 
             while ApriStampa not in ("1", "2", "3"):
                 print("1) Apri PDF")
                 print("2) Stampa PDF")
                 print("3) Esci")                
-                ApriStampa = input("Vuoi aprire o stampare il PDF generato?")
+                ApriStampa = input("Vuoi aprire o stampare il PDF generato? ")
 
             match int(ApriStampa):
                 case 1:
@@ -170,15 +194,15 @@ def main():
             print("Generazione modelli schede...")
 
             anno_str = input("Inserisci l'anno: ")
-            daMese = input("Da mese:")
+            daMese = input("Da mese: ")
 
             while daMese not in ("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"): 
-                daMese = input("Da mese:")
+                daMese = input("Da mese: ")
 
-            aMese = input("A mese:")
+            aMese = input("A mese: ")
 
             while aMese not in ("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"): 
-                aMese = input("A mese:")
+                aMese = input("A mese: ")
 
             if int(aMese < daMese):
                 raise Exception("Il mese di partenza non può essere successivo a quello di partenza!")    
@@ -202,6 +226,30 @@ def main():
 
             Accoda_PDF_Modelli(daMese, aMese, anno_str, "./Modelli_Schede_Cura_2")
             print("Generazione completata!")
+
+            print("1) Apri PDF")
+            print("2) Stampa PDF")
+            print("3) Esci")
+            ApriStampa = input("Vuoi aprire o stampare il PDF generato? ")
+
+            while ApriStampa not in ("1", "2", "3"):
+                print("1) Apri PDF")
+                print("2) Stampa PDF")
+                print("3) Esci")                
+                ApriStampa = input("Vuoi aprire o stampare il PDF generato? ")
+
+            match int(ApriStampa):
+                case 1:
+                    for filename in os.listdir("./Modelli_Schede_Cura_2"):
+                        os.system(f"xdg-open './Modelli_Schede_Cura_2/{filename}'")
+                case 2:
+                    try: 
+                        for filename in os.listdir("./Modelli_Schede_Cura_2"):
+                            Stampa_PDF(f"./Modelli_Schede_Cura_2/{filename}")
+                    except:
+                        raise Exception("Errore durante il tentativo di stampa!")
+                case 3:
+                    exit()            
             #endregion
         
         case 5:
@@ -235,13 +283,13 @@ def main():
             print("1) Apri PDF")
             print("2) Stampa PDF")
             print("3) Esci")
-            ApriStampa = input("Vuoi aprire o stampare il PDF generato?")
+            ApriStampa = input("Vuoi aprire o stampare il PDF generato? ")
 
             while ApriStampa not in ("1", "2", "3"):
                 print("1) Apri PDF")
                 print("2) Stampa PDF")
                 print("3) Esci")                
-                ApriStampa = input("Vuoi aprire o stampare il PDF generato?")
+                ApriStampa = input("Vuoi aprire o stampare il PDF generato? ")
 
             match int(ApriStampa):
                 case 1:
