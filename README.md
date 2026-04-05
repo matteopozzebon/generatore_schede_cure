@@ -1,6 +1,6 @@
 ## Little guide to make it function
 
-Add folders "Scheda_cure_vuota", "Scheda_cure_vuota_2", "Schede generate" and "Elenco_cure"
+Add folders "Modelli_Schede_Cura", "Modelli_Schede_Cura_2", "Schede generate" and "Elenco_cure"
 
 #### Elenco cure
 
