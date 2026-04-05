@@ -30,10 +30,11 @@ def main():
 
     match int(option):
         case 1:
+            #region Creazione scheda vuota
+
             anno_str = input("Inserisci l'anno: ")
             mese_str = input("Inserisci il mese: ")
 
-            #region Creazione scheda vuota
             Controllo_Argomenti(anno_str, mese_str)
 
             anno = int(anno_str)
@@ -117,10 +118,11 @@ def main():
             #endregion
 
         case 3:
+            #region Creazione scheda vuota 2
+
             anno_str = input("Inserisci l'anno: ")
             mese_str = input("Inserisci il mese: ")
 
-            #region Creazione scheda vuota 2
             Controllo_Argomenti(anno_str, mese_str)
 
             anno = int(anno_str)
@@ -203,10 +205,10 @@ def main():
             #endregion
         
         case 5:
+            #region Creazione schede di cura
+
             anno_str = input("Inserisci l'anno: ")
             mese_str = input("Inserisci il mese: ")
-
-            #region Creazione schede di cura
 
             #Controllo che gli argomenti inseriti siano corretti
             Controllo_Argomenti(anno_str, mese_str)
