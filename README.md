@@ -43,3 +43,15 @@ This is the Legenda:
 • Stomaco-3 -> Indica se stomaco pieno o vuoto per terapia 3(valori accettati 'PIENO' o 'VUOTO' o ''
 • Stomaco-4 -> Indica se stomaco pieno o vuoto per terapia 4(valori accettati 'PIENO' o 'VUOTO' o ''
 ```
+
+#### Packages required
+```bash
+[packages]
+requests = "*"
+jinja2 = "*"
+pandas = "*"
+openpyxl = "*"
+pdfkit = "*"
+pypdf = "*"
+pyinstaller = "*"
+```

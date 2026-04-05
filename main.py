@@ -1,6 +1,8 @@
 import os
 import calendar
 import datetime
+import platform
+import subprocess
 from typing import List
 from jinja2 import Environment, FileSystemLoader
 import pandas as pd
@@ -18,12 +20,12 @@ def main():
     #region menu
     print("Seleziona l'azione da svolgere:")
     print("1) Generazione di una scheda cure vuota")
-    print("2) Generazione dell'elenco delle cure")
+    print("2) Generazione schede vuote da mese a mese")
     print("3) Generazione di una scheda cure vuota 2(celle su ultima colonna)")
-    print("4) Esci")
+    print("4) Generazione schede vuote 2 da mese a mese(celle su ultima colonna)")
+    print("5) Generazione dell'elenco delle cure")
+    print("6) Esci")
     option = input("Seleziona l'opzione desiderata: ")
-
-    Controllo_opzione(option)
     #endregion
 
     match int(option):
@@ -43,13 +45,105 @@ def main():
 
             Cancella_Vecchie_Schede_PDF("./Scheda_cure_vuota")
 
-            Creazione_Scheda_Vuota(calendar, nome_mese, anno)
+            Creazione_Scheda_Vuota(calendar, nome_mese, anno , "scheda_cure_vuota.html", 1)
 
             Creazione_Scheda_Vuota_PDF("./Scheda_cure_vuota")
 
             Cancella_Vecchie_Schede_HTML("./Scheda_cure_vuota")
+
+            print("1) Apri PDF")
+            print("2) Stampa PDF")
+            print("3) Esci")
+            ApriStampa = input("Vuoi aprire o stampare il PDF generato?")
+
+            while ApriStampa not in ("1", "2", "3"):
+                print("1) Apri PDF")
+                print("2) Stampa PDF")
+                print("3) Esci")                
+                ApriStampa = input("Vuoi aprire o stampare il PDF generato?")
+
+            match int(ApriStampa):
+                case 1:
+                    for filename in os.listdir("./Scheda_cure_vuota"):
+                        os.system(f"xdg-open './Scheda_cure_vuota/{filename}'")
+                case 2:
+                    try: 
+                        for filename in os.listdir("./Scheda_cure_vuota"):
+                            Stampa_PDF(f"./Scheda_cure_vuota/{filename}")
+                    except:
+                        raise Exception("Errore durante il tentativo di stampa!")
+                case 3:
+                    exit()
+
             #endregion
         case 2:
+            print('da mese a mese vuote')
+
+            daMese = input("Da mese:")
+
+            while daMese not in ("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"): 
+                daMese = input("Da mese:")
+
+            aMese = input("A mese:")
+
+            while aMese not in ("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"): 
+                aMese = input("A mese:")
+
+            if int(aMese < daMese):
+                raise Exception("Il mese di partenza non può essere successivo a quello di partenza!")    
+            
+            for int(daMese) in range(aMese):
+                print('ok')
+
+        case 3:
+            anno_str = input("Inserisci l'anno: ")
+            mese_str = input("Inserisci il mese: ")
+
+            #region Creazione scheda vuota 2
+            Controllo_Argomenti(anno_str, mese_str)
+
+            anno = int(anno_str)
+            mese = int(mese_str)
+
+            calendar = Crea_Calendario(anno, mese)
+
+            nome_mese = Trova_Nome_Mese(mese)
+
+            Cancella_Vecchie_Schede_PDF("./Scheda_cure_vuota_2")
+
+            Creazione_Scheda_Vuota(calendar, nome_mese, anno , "scheda_cure_vuota_2.html", 2)
+
+            Creazione_Scheda_Vuota_PDF("./Scheda_cure_vuota_2")
+
+            Cancella_Vecchie_Schede_HTML("./Scheda_cure_vuota_2")
+
+            print("1) Apri PDF")
+            print("2) Stampa PDF")
+            print("3) Esci")
+            ApriStampa = input("Vuoi aprire o stampare il PDF generato?")
+
+            while ApriStampa not in ("1", "2", "3"):
+                print("1) Apri PDF")
+                print("2) Stampa PDF")
+                print("3) Esci")                
+                ApriStampa = input("Vuoi aprire o stampare il PDF generato?")
+
+            match int(ApriStampa):
+                case 1:
+                    for filename in os.listdir("./Scheda_cure_vuota_2"):
+                        os.system(f"xdg-open './Scheda_cure_vuota_2/{filename}'")
+                case 2:
+                    try: 
+                        for filename in os.listdir("./Scheda_cure_vuota_2"):
+                            Stampa_PDF(f"./Scheda_cure_vuota_2/{filename}")
+                    except:
+                        raise Exception("Errore durante il tentativo di stampa!")
+                case 3:
+                    exit()
+            #endregion
+        case 4:
+            print("da mese a mese vuote 2")
+        case 5:
             anno_str = input("Inserisci l'anno: ")
             mese_str = input("Inserisci il mese: ")
 
@@ -76,39 +170,40 @@ def main():
             Cancella_Vecchie_Schede_HTML("./Schede_generate")
 
             Accoda_PDF(nome_mese, str(anno))
+
+            print("1) Apri PDF")
+            print("2) Stampa PDF")
+            print("3) Esci")
+            ApriStampa = input("Vuoi aprire o stampare il PDF generato?")
+
+            while ApriStampa not in ("1", "2", "3"):
+                print("1) Apri PDF")
+                print("2) Stampa PDF")
+                print("3) Esci")                
+                ApriStampa = input("Vuoi aprire o stampare il PDF generato?")
+
+            match int(ApriStampa):
+                case 1:
+                    for filename in os.listdir("./Schede_generate"):
+                        os.system(f"xdg-open './Schede_generate/{filename}'")
+                case 2:
+                    try: 
+                        for filename in os.listdir("./Schede_generate"):
+                            Stampa_PDF(f"./Schede_generate/{filename}")
+                    except:
+                        raise Exception("Errore durante il tentativo di stampa!")
+                case 3:
+                    exit()
             #endregion
 
-        case 3:
-            anno_str = input("Inserisci l'anno: ")
-            mese_str = input("Inserisci il mese: ")
-
-            #region Creazione scheda vuota 2
-            Controllo_Argomenti(anno_str, mese_str)
-
-            anno = int(anno_str)
-            mese = int(mese_str)
-
-            calendar = Crea_Calendario(anno, mese)
-
-            nome_mese = Trova_Nome_Mese(mese)
-
-            Cancella_Vecchie_Schede_PDF("./Scheda_cure_vuota_2")
-
-            Creazione_Scheda_Vuota_2(calendar, nome_mese, anno)
-
-            Creazione_Scheda_Vuota_PDF("./Scheda_cure_vuota_2")
-
-            Cancella_Vecchie_Schede_HTML("./Scheda_cure_vuota_2")
-            #endregion
-
-        case 4:
+        case 6:
             exit()
 
 #Funzione per controllo validità opzione selezionata
-def Controllo_opzione(opzione: str):
+def Controllo_opzione_menu(opzione: str):
     if opzione not in ("1", "2", "3", "4"):
-        raise Exception('Opzione selezionata non valida!')
-        
+        raise Exception('Opzione selezionata non valida!')  
+
 #Funzione per il controllo della validità degli argomenti
 def Controllo_Argomenti(anno, mese: str):    
     current_year = datetime.date.today().year
@@ -209,20 +304,29 @@ def Lettura_Excel_Cure(path: str):
 
 #Funzione per la cancellazione delle vecchie schede generate in formato pdf in formato html
 def Cancella_Vecchie_Schede_HTML(directory: str):
+    print("Cancellazione vecchie schede HTML...")
+    
     for filename in os.listdir(directory):
         file_path = os.path.join(directory, filename)
         if os.path.isfile(file_path) and filename.endswith(".html"):
             os.remove(file_path)
 
+    print("Cancellazione HTML eseguita!") 
+
 #Funzione per la cancellazione delle vecchie schede generate in formato pdf
 def Cancella_Vecchie_Schede_PDF(directory: str):
+    print("Cancellazione vecchie schede PDF...")
+
     for filename in os.listdir(directory):
         file_path = os.path.join(directory, filename)
         if os.path.isfile(file_path) and filename.endswith(".pdf"):
             os.remove(file_path)
 
+    print("Cancellazione PDF eseguita!")            
+
 #Funzione per la creazione delle schede di cura
 def Creazione_Schede(data_scheda, calendar: List[Day], mese: str, anno: int):
+    print("Creazione schede in formato HTML...")
 
     #Carico template
     env = Environment(loader=FileSystemLoader("."))
@@ -247,6 +351,8 @@ def Creazione_Schede(data_scheda, calendar: List[Day], mese: str, anno: int):
             f.write(output)
 
         print(f"Report generated: {row[0]}.html")       
+
+    print("Creazione schede HTML eseguita!")
 
 #Funzione per la conversione delle schede in formato PDF
 def Creazione_Schede_PDF():
@@ -289,12 +395,13 @@ def Accoda_PDF(mese, anno: str):
     print("PDF con schede cura generato!")
 
 #Funzione per la creazione di una scheda di cura vuota
-def Creazione_Scheda_Vuota(calendar: List[Day], mese: str, anno: int):
+#Tipi scheda --> • 1: con rowspan • 2: senza rowspan
+def Creazione_Scheda_Vuota(calendar: List[Day], mese: str, anno: int, temp: str, scheda: int):
     print("Creazione scheda...")
 
     #Carico template
     env = Environment(loader=FileSystemLoader("."))
-    template = env.get_template("scheda_cure_vuota.html")
+    template = env.get_template(temp)
 
     title = f"{mese} {str(anno)}"
 
@@ -307,36 +414,22 @@ def Creazione_Scheda_Vuota(calendar: List[Day], mese: str, anno: int):
     # Render HTML
     output = template.render(data)
     # Save report
-    with open(f"./Scheda_cure_vuota/{mese}_{str(anno)}_Vuota.html", "w") as f:
-        f.write(output)
+
+    match scheda:
+        case 1:
+            with open(f"./Scheda_cure_vuota/{mese}_{str(anno)}_Vuota.html", "w") as f:
+                f.write(output)
+        case 2:
+            with open(f"./Scheda_cure_vuota_2/{mese}_{str(anno)}_Vuota_2.html", "w") as f:
+                f.write(output)
     
-    print(f"Report generated: {mese}_{str(anno)}_Vuota.html")   
+    match scheda:
+        case 1:
+            print(f"Report generated: {mese}_{str(anno)}_Vuota.html")   
+        case 2:
+            print(f"Report generated: {mese}_{str(anno)}_Vuota_2.html")
+
     print("Scheda generata!")
-
-#Funzione per la creazione di una scheda di cura vuota 2
-def Creazione_Scheda_Vuota_2(calendar: List[Day], mese: str, anno: int):
-    print("Creazione scheda...")
-
-    #Carico template
-    env = Environment(loader=FileSystemLoader("."))
-    template = env.get_template("scheda_cure_vuota_2.html")
-
-    title = f"{mese} {str(anno)}"
-
-    # Data to inject
-    data = {
-        "title": title,
-        "days": calendar,
-        "days_number": len(calendar),
-    }
-    # Render HTML
-    output = template.render(data)
-    # Save report
-    with open(f"./Scheda_cure_vuota_2/{mese}_{str(anno)}_Vuota_2.html", "w") as f:
-        f.write(output)
-    
-    print(f"Report generated: {mese}_{str(anno)}_Vuota_2.html")  
-    print("Scheda generata!") 
 
 #Funzione per la conversione della scheda in PDF
 def Creazione_Scheda_Vuota_PDF(directory: str):
@@ -348,6 +441,32 @@ def Creazione_Scheda_Vuota_PDF(directory: str):
         pdfkit.from_file(file_path, f"{directory}/{name}.pdf")         
     
     print("Conversione eseguita!")
+
+def Stampa_PDF(pdf_path):
+    """
+    Print a PDF file using the default system printer.
+    Works on Linux, Windows, and macOS.
+    """
+    system = platform.system()
+
+    if system == "Linux":
+        # Use lp command (CUPS)
+        try:
+            subprocess.run(["lp", pdf_path], check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Error printing PDF on Linux: {e}")
+    elif system == "Darwin":  # macOS
+        try:
+            subprocess.run(["lp", pdf_path], check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Error printing PDF on macOS: {e}")
+    elif system == "Windows":
+        try:
+            os.startfile(pdf_path, "print")
+        except Exception as e:
+            print(f"Error printing PDF on Windows: {e}")
+    else:
+        print("Unsupported OS")
 
 
 if __name__ == "__main__":
