@@ -1,0 +1,45 @@
+## Little guide to make it function
+
+Add folders "Scheda_cure_vuota", "Scheda_cure_vuota_2", "Schede generate" and "Elenco_cure"
+
+#### Elenco cure
+
+In "Elenco_cure" you need to create "Cure.xlsx"
+
+#### Cure.xlsx
+
+This file contains the informations to create the compiled cure cards
+
+This is the Legenda:
+
+```bash
+• Nome -> Nome del cane
+• M-1 -> Terapia 1 della mattina(valore accettato 'X' se presente)
+• M-2 -> Terapia 2 della mattina(valore accettato 'X' se presente)
+• M-3 -> Terapia 3 della mattina(valore accettato 'X' se presente)
+• M-4 -> Terapia 4 della mattina(valore accettato 'X' se presente)
+• P-1 -> Terapia 1 del pomeriggio(valore accettato 'X' se presente)
+• P-2 -> Terapia 2 del pomeriggio(valore accettato 'X' se presente)
+• P-3 -> Terapia 3 del pomeriggio(valore accettato 'X' se presente)
+• P-4 -> Terapia 4 del pomeriggio(valore accettato 'X' se presente)
+• S-1 -> Terapia 1 della sera(valore accettato 'X' se presente)
+• S-2 -> Terapia 2 della sera(valore accettato 'X' se presente)
+• S-3 -> Terapia 3 della sera(valore accettato 'X' se presente)
+• S-4 -> Terapia 4 della sera(valore accettato 'X' se presente)
+• Terapia1 -> Descrizione terapia 1
+• Terapia2 -> Descrizione terapia 2
+• Terapia3 -> Descrizione terapia 3
+• Terapia4 -> Descrizione terapia 4
+• GiorniAlterni1 -> Indica se terapia 1 deve essere data a giorni alterni(valore accettato 'X' se presente) 
+• GiorniAlterni2 -> Indica se terapia 2 deve essere data a giorni alterni(valore accettato 'X' se presente)
+• GiorniAlterni3 -> Indica se terapia 3 deve essere data a giorni alterni(valore accettato 'X' se presente)
+• GiorniAlterni4 -> Indica se terapia 4 deve essere data a giorni alterni(valore accettato 'X' se presente)
+• InizioSalto1 -> Indica il primo giorno in cui la terapia non viene data se GiorniAlterni1 ha valore 'X'
+• InizioSalto2 -> Indica il primo giorno in cui la terapia non viene data se GiorniAlterni2 ha valore 'X'
+• InizioSalto3 -> Indica il primo giorno in cui la terapia non viene data se GiorniAlterni3 ha valore 'X'
+• InizioSalto4 -> Indica il primo giorno in cui la terapia non viene data se GiorniAlterni4 ha valore 'X'
+• Stomaco-1 -> Indica se stomaco pieno o vuoto per terapia 1(valori accettati 'PIENO' o 'VUOTO' o '')
+• Stomaco-2 -> Indica se stomaco pieno o vuoto per terapia 2(valori accettati 'PIENO' o 'VUOTO' o ''
+• Stomaco-3 -> Indica se stomaco pieno o vuoto per terapia 3(valori accettati 'PIENO' o 'VUOTO' o ''
+• Stomaco-4 -> Indica se stomaco pieno o vuoto per terapia 4(valori accettati 'PIENO' o 'VUOTO' o ''
+```
