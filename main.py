@@ -106,7 +106,7 @@ def main():
 
                 nome_mese = Trova_Nome_Mese(mese)
 
-                Creazione_Scheda_Vuota(calendar, nome_mese, anno , "./Modello_Schede_Cura.html", 1)
+                Creazione_Scheda_Vuota_Lista(calendar, nome_mese, anno , "./Modello_Schede_Cura.html", 1, str(mese))
                 mese +=1
 
             Creazione_Scheda_Vuota_PDF("./Modelli_Schede_Cura")    
@@ -193,7 +193,7 @@ def main():
 
                 nome_mese = Trova_Nome_Mese(mese)
 
-                Creazione_Scheda_Vuota(calendar, nome_mese, anno , "./Modello_Schede_Cura_2.html", 2)
+                Creazione_Scheda_Vuota_Lista(calendar, nome_mese, anno , "./Modello_Schede_Cura_2.html", 2, str(mese))
                 mese +=1
 
             Creazione_Scheda_Vuota_PDF("./Modelli_Schede_Cura_2")    
@@ -463,6 +463,9 @@ def Accoda_PDF_Modelli(daMese: str, aMese: str, anno: str, directory: str):
     for filename in os.listdir(directory):
         file_path = os.path.join(directory, filename)    
         pdf_files.append(file_path)
+
+    print(pdf_files)
+    pdf_files.sort()
     
     merger = PdfWriter()
 
@@ -513,6 +516,43 @@ def Creazione_Scheda_Vuota(calendar: List[Day], mese: str, anno: int, temp: str,
             print(f"Report generated: {mese}_{str(anno)}_Vuota.html")   
         case 2:
             print(f"Report generated: {mese}_{str(anno)}_Vuota_2.html")
+
+    print("Scheda generata!")
+
+#Funzione per la creazione di una scheda di cura vuota nella lista
+#Tipi scheda --> • 1: con rowspan • 2: senza rowspan
+def Creazione_Scheda_Vuota_Lista(calendar: List[Day], mese: str, anno: int, temp: str, scheda: int, n_mese: str):
+    print("Creazione scheda...")
+
+    #Carico template
+    env = Environment(loader=FileSystemLoader("."))
+    template = env.get_template(temp)
+
+    title = f"{mese} {str(anno)}"
+
+    # Data to inject
+    data = {
+        "title": title,
+        "days": calendar,
+        "days_number": len(calendar),
+    }
+    # Render HTML
+    output = template.render(data)
+    # Save report
+
+    match scheda:
+        case 1:
+            with open(f"./Modelli_Schede_Cura/{n_mese}_{str(anno)}_Vuota.html", "w") as f:
+                f.write(output)
+        case 2:
+            with open(f"./Modelli_Schede_Cura_2/{n_mese}_{str(anno)}_Vuota_2.html", "w") as f:
+                f.write(output)
+    
+    match scheda:
+        case 1:
+            print(f"Report generated: {n_mese}_{str(anno)}_Vuota.html")   
+        case 2:
+            print(f"Report generated: {n_mese}_{str(anno)}_Vuota_2.html")
 
     print("Scheda generata!")
 
