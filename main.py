@@ -1,5 +1,4 @@
 import os
-import base64
 import calendar
 import datetime
 from typing import List
@@ -16,8 +15,10 @@ class Day:
 
 def main(): 
     print("Seleziona l'azione da svolgere:")
-    print("1) Generazione di una scheda vuota")
+    print("1) Generazione di una scheda cure vuota")
     print("2) Generazione dell'elenco delle cure")
+    print("3) Generazione di una scheda cure vuota 2(celle su ultima colonna)")
+    print("4) Esci")
     option = input("Seleziona l'opzione desiderata: ")
 
     Controllo_opzione(option)
@@ -37,13 +38,13 @@ def main():
 
             nome_mese = Trova_Nome_Mese(mese)
 
-            Cancella_Vecchia_Scheda_Vuota_PDF()
+            Cancella_Vecchia_Scheda_Vuota_PDF("./Scheda_cure_vuota")
 
             Creazione_Scheda_Vuota(calendar, nome_mese, anno)
 
-            Creazione_Scheda_Vuota_PDF()
+            Creazione_Scheda_Vuota_PDF("./Scheda_cure_vuota")
 
-            Cancella_Vecchia_Scheda_Vuota_HTML()
+            Cancella_Vecchia_Scheda_Vuota_HTML("./Scheda_cure_vuota")
             #endregion
         case 2:
             anno_str = input("Inserisci l'anno: ")
@@ -74,12 +75,37 @@ def main():
             Accoda_PDF(nome_mese, str(anno))
             #endregion
 
-#controllo validità opzione selezionata
+        case 3:
+            anno_str = input("Inserisci l'anno: ")
+            mese_str = input("Inserisci il mese: ")
+
+            #region Creazione scheda vuota
+            Controllo_Argomenti(anno_str, mese_str)
+
+            anno = int(anno_str)
+            mese = int(mese_str)
+
+            calendar = Crea_Calendario(anno, mese)
+
+            nome_mese = Trova_Nome_Mese(mese)
+
+            Cancella_Vecchia_Scheda_Vuota_PDF("./Scheda_cure_vuota_2")
+
+            Creazione_Scheda_Vuota_2(calendar, nome_mese, anno)
+
+            Creazione_Scheda_Vuota_PDF("./Scheda_cure_vuota_2")
+
+            Cancella_Vecchia_Scheda_Vuota_HTML("./Scheda_cure_vuota_2")
+
+        case 4:
+            exit()
+
+#Funzione per controllo validità opzione selezionata
 def Controllo_opzione(opzione: str):
-    if opzione not in ("1", "2"):
+    if opzione not in ("1", "2", "3", "4"):
         raise Exception('Opzione selezionata non valida!')
         
-#funzione per il controllo della validità degli argomenti
+#Funzione per il controllo della validità degli argomenti
 def Controllo_Argomenti(anno, mese: str):    
     current_year = datetime.date.today().year
 
@@ -255,18 +281,14 @@ def Accoda_PDF(mese, anno: str):
     print("PDF con schede cura generato")
 
 #Funzione per la creazione della scheda vuota in formato HTML
-def Cancella_Vecchia_Scheda_Vuota_HTML():
-    directory = "./Scheda_cure_vuota"
-
+def Cancella_Vecchia_Scheda_Vuota_HTML(directory: str):
     for filename in os.listdir(directory):
         file_path = os.path.join(directory, filename)
         if os.path.isfile(file_path) and filename.endswith(".html"):
             os.remove(file_path)
 
 #Funzione per la creazione della scheda vuota in formato PDF
-def Cancella_Vecchia_Scheda_Vuota_PDF():
-    directory = "./Scheda_cure_vuota"
-
+def Cancella_Vecchia_Scheda_Vuota_PDF(directory: str):
     for filename in os.listdir(directory):
         file_path = os.path.join(directory, filename)
         if os.path.isfile(file_path) and filename.endswith(".pdf"):
@@ -295,10 +317,31 @@ def Creazione_Scheda_Vuota(calendar: List[Day], mese: str, anno: int):
     
     print(f"Report generated: {mese}_{str(anno)}_Vuota.html")   
 
-#Funzione per la conversione della scheda in PDF
-def Creazione_Scheda_Vuota_PDF():
-    directory = "./Scheda_cure_vuota"
+#Funzione per la creazione di una scheda di cura vuota 2
+def Creazione_Scheda_Vuota_2(calendar: List[Day], mese: str, anno: int):
 
+    #Carico template
+    env = Environment(loader=FileSystemLoader("."))
+    template = env.get_template("scheda_cure_vuota_2.html")
+
+    title = f"{mese} {str(anno)}"
+
+    # Data to inject
+    data = {
+        "title": title,
+        "days": calendar,
+        "days_number": len(calendar),
+    }
+    # Render HTML
+    output = template.render(data)
+    # Save report
+    with open(f"./Scheda_cure_vuota_2/{mese}_{str(anno)}_Vuota_2.html", "w") as f:
+        f.write(output)
+    
+    print(f"Report generated: {mese}_{str(anno)}_Vuota_2.html")   
+
+#Funzione per la conversione della scheda in PDF
+def Creazione_Scheda_Vuota_PDF(directory: str):
     for filename in os.listdir(directory):
         file_path = os.path.join(directory, filename)
         name, ext = os.path.splitext(filename)    
