@@ -76,7 +76,9 @@ def main():
                     exit()
 
             #endregion
+        
         case 2:
+            #region Creazione lista modello cure
             print("Generazione modelli schede...")
 
             anno_str = input("Inserisci l'anno: ")
@@ -112,6 +114,7 @@ def main():
 
             Accoda_PDF_Modelli(daMese, aMese, anno_str, "./Modelli_Schede_Cura")
             print("Generazione completata!")
+            #endregion
 
         case 3:
             anno_str = input("Inserisci l'anno: ")
@@ -159,7 +162,9 @@ def main():
                 case 3:
                     exit()
             #endregion
+        
         case 4:
+            #region Creazione lista modello cure 2
             print("Generazione modelli schede...")
 
             anno_str = input("Inserisci l'anno: ")
@@ -195,6 +200,8 @@ def main():
 
             Accoda_PDF_Modelli(daMese, aMese, anno_str, "./Modelli_Schede_Cura_2")
             print("Generazione completata!")
+            #endregion
+        
         case 5:
             anno_str = input("Inserisci l'anno: ")
             mese_str = input("Inserisci il mese: ")
