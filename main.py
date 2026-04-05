@@ -14,6 +14,8 @@ class Day:
     name: str
 
 def main(): 
+
+    #region menu
     print("Seleziona l'azione da svolgere:")
     print("1) Generazione di una scheda cure vuota")
     print("2) Generazione dell'elenco delle cure")
@@ -22,6 +24,7 @@ def main():
     option = input("Seleziona l'opzione desiderata: ")
 
     Controllo_opzione(option)
+    #endregion
 
     match int(option):
         case 1:
@@ -79,7 +82,7 @@ def main():
             anno_str = input("Inserisci l'anno: ")
             mese_str = input("Inserisci il mese: ")
 
-            #region Creazione scheda vuota
+            #region Creazione scheda vuota 2
             Controllo_Argomenti(anno_str, mese_str)
 
             anno = int(anno_str)
@@ -96,6 +99,7 @@ def main():
             Creazione_Scheda_Vuota_PDF("./Scheda_cure_vuota_2")
 
             Cancella_Vecchia_Scheda_Vuota_HTML("./Scheda_cure_vuota_2")
+            #endregion
 
         case 4:
             exit()
@@ -346,6 +350,7 @@ def Creazione_Scheda_Vuota_PDF(directory: str):
         file_path = os.path.join(directory, filename)
         name, ext = os.path.splitext(filename)    
         pdfkit.from_file(file_path, f"{directory}/{name}.pdf")         
+
 
 if __name__ == "__main__":
     main()
