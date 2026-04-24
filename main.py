@@ -93,7 +93,7 @@ def main():
             while aMese not in ("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"): 
                 aMese = input("A mese: ")
 
-            if int(aMese < daMese):
+            if int(aMese) < int(daMese):
                 raise Exception("Il mese di partenza non può essere successivo a quello di partenza!")    
             
             anno = int(anno_str)
@@ -204,7 +204,7 @@ def main():
             while aMese not in ("1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"): 
                 aMese = input("A mese: ")
 
-            if int(aMese < daMese):
+            if int(aMese) < int(daMese):
                 raise Exception("Il mese di partenza non può essere successivo a quello di partenza!")    
             
             anno = int(anno_str)
